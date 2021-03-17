@@ -3,7 +3,6 @@ let computerScore = 0;
 // The use of the '_span' and '_div' is to identify DOM elements
 const userScore_span = document.getElementById("user-score");
 const computerScore_span = document.getElementById("computer-score");
-const scoreBoard_div = document.querySelector(".score-board");
 const result_p = document.querySelector(".result > p");
 const rock_div = document.getElementById("r");
 const paper_div = document.getElementById("p");
@@ -22,21 +21,30 @@ function convertToWord(letter) {
 }
 
 function win(userChoice, computerChoice) {
+    const userChoice_div = document.getElementById(userChoice);
     userScore++;
     userScore_span.innerHTML = userScore;
     computerScore_span.innerHTML = computerScore;
     result_p.innerHTML = `${convertToWord(userChoice)} beats ${convertToWord(computerChoice)}. You win!`;
+    userChoice_div.classList.add('green-glow');
+    setTimeout(() =>  userChoice_div.classList.remove('green-glow'), 500);
 }
 
 function lose(userChoice, computerChoice) {
+    const userChoice_div = document.getElementById(userChoice);
     computerScore++;
     userScore_span.innerHTML = userScore;
     computerScore_span.innerHTML = computerScore;
     result_p.innerHTML = `${convertToWord(computerChoice)} beats ${convertToWord(userChoice)}. You lose!`;
+    userChoice_div.classList.add('red-glow');
+    setTimeout(() => userChoice_div.classList.remove('red-glow'), 500);
 }
 
 function draw(userChoice, computerChoice) {
+    const userChoice_div = document.getElementById(userChoice);
     result_p.innerHTML = `${convertToWord(computerChoice)} and ${convertToWord(userChoice)} make a draw.`;
+    userChoice_div.classList.add('grey-glow');
+    setTimeout(() => userChoice_div.classList.remove('grey-glow'), 500);
 }
 
 function game(userChoice) {
@@ -61,16 +69,8 @@ function game(userChoice) {
 }
 
 function main() {
-    rock_div.addEventListener('click', function() {
-        game("r");
-    })
-
-    paper_div.addEventListener('click', function() {
-        game("p");
-    })
-
-    scissors_div.addEventListener('click', function() {
-        game("s");
-    })
+    rock_div.addEventListener('click', () => game("r"));
+    paper_div.addEventListener('click', () => game("p"));
+    scissors_div.addEventListener('click', () => game("s"));
 }
 main();
